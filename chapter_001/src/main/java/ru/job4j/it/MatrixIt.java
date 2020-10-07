@@ -20,42 +20,29 @@ public class MatrixIt implements Iterator<Integer> {
 
     @Override
     public boolean hasNext() {
-        boolean res;
+        if (row >= data.length)
+            return false;
+        if (column >= data[row].length &&
+                (row >= data.length || row == data.length - 1)  )
+            return false;
+        return true;
 
-
-
-
-
-
-        if  ((row < this.data.length) || (this.column < this.data[row].length)) {
-
-            res = true;
-        } else {
-            res = false;
-        }
-        return res;
-        // return row < data.length[] && ;
     }
 
     @Override
     public Integer next() {
-        if (!hasNext()) {
+
+        if (!hasNext())
             throw new NoSuchElementException();
-
+        if (column >= data[row].length) {
+            row++;
+            column = 0;
         }
+         // column++;
 
-        final IntStream intStream = range(0, this.data.length).
-                flatMap(rowArr -> range(0, this.data[row].length).map(col -> {
-            final int element = this.data[rowArr][col];
-              this.column = col;
-              this.row = rowArr;
-            // E.g. multiply elements in odd numbered rows and columns by two.
-            return element;
+     System.out.println("Column = " + column + " ,  Row = " + row);
 
-        }));
-
-        intStream.forEachOrdered(n -> System.out.print(n + " "));
-      return 0;
+        return data[row][column++];
 
     }
 }
