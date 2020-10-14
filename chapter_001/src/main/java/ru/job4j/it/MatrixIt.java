@@ -16,32 +16,21 @@ public class MatrixIt implements Iterator<Integer> {
     public MatrixIt(int[][] data) {
         this.data = data;
     }
+
     @Override
     public boolean hasNext() {
-     //   System.out.println("Column = " + column + " ,  Row = " + row);
-
-        if (row >= data.length)
-            return false;
-        if (column >= data[row].length &&
-                (row >= data.length || row == data.length - 1 ))
-            return false;
-        return true;
+        while (row < data.length && data[row].length == column) {
+            column = 0;
+            row++;
+        }
+        return row < data.length;
     }
+
     @Override
     public Integer next() {
-          int val=0;
         if (!hasNext())
             throw new NoSuchElementException();
 
-        if (column >= data[row].length) {
-            row++;
-            column = 0;
-        }
-        while ((data[row][column] == 0) || (column > data[row].length-1))
-        {
-            //column++;
-            val = data[row][column++];
-        }
-        return val;
-    }
+            return data[row][column++];
+}
 }
