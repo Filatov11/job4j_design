@@ -8,12 +8,7 @@ public class EvenIterator implements Iterator<Integer> {
     private int[] array;
 
     public boolean checkOdd(int val) {
-
-        if (val % 2 == 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return val % 2 == 0;
     }
 
     EvenIterator(int[] arr) {
@@ -22,15 +17,10 @@ public class EvenIterator implements Iterator<Integer> {
 
     @Override
     public boolean hasNext() {
-        while ((array.length - 1) > currentPosition) {
-            if (!checkOdd((array[currentPosition]))) {
-                currentPosition++;
-            } else {
-                break;
-            }
+        while (((array.length - 1) > currentPosition) && (!checkOdd((array[currentPosition])))) {
+            currentPosition++;
         }
-
-        return ((checkOdd((array[currentPosition]))) && ((array.length) > currentPosition));
+        return (((array.length) > currentPosition) && (checkOdd((array[currentPosition]))));
     }
 
     @Override
