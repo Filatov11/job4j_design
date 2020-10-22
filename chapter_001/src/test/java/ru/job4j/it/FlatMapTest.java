@@ -59,4 +59,24 @@ public class FlatMapTest {
         FlatMap<Object> flat = new FlatMap<>(data);
         flat.next();
     }
+
+
+    @Test
+    public void whenEmptyCursor() {
+        Object i = (Integer)1;
+        Object k = (Integer)4; Object l = (Integer)5;
+        Iterator<Iterator<Object>> data = List.of(
+                List.of(i).iterator(),
+                List.of().iterator(),
+                List.of(k,l).iterator()
+        ).iterator();
+        FlatMap<Object> flat = new FlatMap<>(data);
+        assertThat(flat.next(), is((int)i));
+        assertThat(flat.next(), is((int)k));
+        assertThat(flat.next(), is((int)l));
+
+
+
+    }
+
 }

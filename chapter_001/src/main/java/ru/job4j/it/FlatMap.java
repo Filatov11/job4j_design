@@ -13,20 +13,33 @@ public class FlatMap<T> implements Iterator<T> {
     }
 
     private void check(){
-        if (cursor == null && data.hasNext())
+
+       // while ((cursor == null && data.hasNext()))
+       // {        cursor = data.next();
+      ///  }
+         if (cursor == null && data.hasNext())
             cursor = data.next();
+
     }
 
     @Override
     public boolean hasNext() {
         check();
-        if(cursor == null)
-            return false;
-        if(cursor.hasNext())
-            return true;
+     // while  ((cursor == null) && (!cursor.hasNext()))
+     // {check();}
+       // while ((cursor == null) && (cursor.hasNext()))
+      //      cursor = data.next();
 
-        if(data.hasNext())
-            cursor = data.next();
+     if((cursor == null) && (cursor.hasNext()))
+           return false;
+       if(cursor.hasNext())
+            return true;
+while ((data.hasNext())  && (cursor.hasNext() == false))
+{
+    cursor = data.next();
+}
+      if(data.hasNext())
+          cursor = data.next();
 
         return cursor.hasNext();
     }
@@ -37,8 +50,10 @@ public class FlatMap<T> implements Iterator<T> {
         if (!hasNext()) {
             throw new NoSuchElementException();
         }
-        if(!cursor.hasNext() && data.hasNext())
-            cursor = data.next();
+
+           if (!cursor.hasNext() && data.hasNext())
+                cursor = data.next();
+
 
      //   return currentIterator.next();
         return cursor.next();
