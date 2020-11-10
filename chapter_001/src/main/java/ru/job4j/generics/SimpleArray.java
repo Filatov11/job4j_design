@@ -1,37 +1,44 @@
 package ru.job4j.generics;
 
 import java.util.Arrays;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Objects;
 
-public class SimpleArray<T>  {
+public class SimpleArray<T>
+{
     T[] uniArr;
+    int current = 0;
     public  SimpleArray(T[] arr) {
         uniArr = arr;
     }
 
     public int  firstEmpty() {
-        int i = 0;
-        while ( (this.uniArr[i] != null) &&  (i < this.uniArr.length) ) {
-            i++;
+        int i = current;
+        while ( (this.uniArr[current] != null) &&  (current < this.uniArr.length-1) ) {
+            i = current++;
         }
         return i;
 
     }
 
     public void   add(T model) {
-        this.uniArr[firstEmpty()] = model;
+        int i;
+        i = firstEmpty();
+        this.uniArr[i] = model;
     }
 
     public  void  set(int index, T model) {
-      this.uniArr[index] = model;
-    }
+      if (checkIndex(index)) {
+            this.uniArr[index] = model;
+        }
+      }
 
     public void remove(int index)  {
-         T[] temp;
-         temp = Arrays.copyOfRange(this.uniArr, index, this.uniArr.length-1);
-        System.arraycopy(temp, 0, this.uniArr, index, temp.length);
-        for (int i = (index+ temp.length)-1; i < this.uniArr.length; i++ ) {
-            this.uniArr[i] = null;
+        if (checkIndex(index)) {
+            System.arraycopy(uniArr, index + 1, uniArr, index, uniArr.length - 1 - index);
+            uniArr[uniArr.length - 1] = null;
+
         }
     }
 
@@ -45,24 +52,39 @@ public class SimpleArray<T>  {
 
     }
     public T get(int index) {
-        T retVal ;
-        //if  (this.uniArr.length > index)
-        try {
-            retVal = this.uniArr[index - 1];
-
+        T retVal = null;
+        if (checkIndex(index)) {
+            retVal = this.uniArr[index];
         }
-
-            catch (Exception e) {
-
-                // throws Exception
-                System.out.println("Exception : " + e);
-              retVal = null;
-        }
-
         return retVal;
         }
 
+
+    public static void main(String[] args) {
+
+        String[] strings = new String[]{"Hello", "World"};
+
+
+
+        SimpleArray<String> array1 = new SimpleArray<>(strings);
+        System.out.println(array1.get(0));
+        array1.add("my");
+
+
+        array1.remove(2);
+
+        array1.set(1, "land");
+         for ( String s : array1.uniArr ) {
+           System.out.println((String)s);
+         }
+
     }
+
+
+}
+
+
+
 
 
 

@@ -6,15 +6,18 @@ import java.util.NoSuchElementException;
 public class SAIterator<T> implements Iterable<T> {
     int current = 0;
     T[] val;
-    @Override
-    public Iterator iterator() {
-        return null;
-    }
+
+
+
 
     public boolean hasNext() {
-        if (current < SAIterator.this.val.length) {
+        System.out.println(" hasnext " + " current = " + current );
+        System.out.println(" SAIterator.this.val.length " + val.length );
+        if (current < val.length-1) {
+            System.out.println("current = " + current + " true ");
             return true;
         } else {
+            System.out.println("current = " + current + " false ");
             return false;
         }
     }
@@ -26,8 +29,21 @@ public class SAIterator<T> implements Iterable<T> {
         return val[current++];
     }
 
+    @Override
+    public Iterator<T> iterator() {
+        //Iterator<T> it = this.iterator();
+     //this.val = itarr;
+     return new SAIterator().iterator();
+    }
+
+    // public Iterator<MyElem> iterator() {
+     //   return this;
 
 
+//    @Override
+   // public Iterator<T> iterator() {
+       // return new SAIterator( arr);
+  //  }
 }
 
 
