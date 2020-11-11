@@ -5,10 +5,11 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Objects;
 
-public class SimpleArray<T>
+public class SimpleArray<T>  implements Iterable<T>
 {
     T[] uniArr;
     int current = 0;
+    int count = 5;
     public  SimpleArray(T[] arr) {
         uniArr = arr;
     }
@@ -23,22 +24,27 @@ public class SimpleArray<T>
     }
 
     public void   add(T model) {
-        int i;
-        i = firstEmpty();
-        this.uniArr[i] = model;
+        int index;
+        index = firstEmpty();
+        index = Objects.checkIndex(index, count-1);
+
+            uniArr[current++] = model;
+
     }
 
     public  void  set(int index, T model) {
+        Objects.checkIndex(index, count-1);
       if (checkIndex(index)) {
             this.uniArr[index] = model;
         }
       }
 
     public void remove(int index)  {
+       index =  Objects.checkIndex(index, count-1);
         if (checkIndex(index)) {
             System.arraycopy(uniArr, index + 1, uniArr, index, uniArr.length - 1 - index);
             uniArr[uniArr.length - 1] = null;
-
+            count--;
         }
     }
 
@@ -67,7 +73,7 @@ public class SimpleArray<T>
 
 
         SimpleArray<String> array1 = new SimpleArray<>(strings);
-        System.out.println(array1.get(0));
+        //System.out.println(array1.get(0));
         array1.add("my");
 
 
@@ -81,6 +87,10 @@ public class SimpleArray<T>
     }
 
 
+    @Override
+    public Iterator<T> iterator() {
+        return null;
+    }
 }
 
 

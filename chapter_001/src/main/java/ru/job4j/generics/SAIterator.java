@@ -3,10 +3,9 @@ package ru.job4j.generics;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class SAIterator<T> implements Iterable<T> {
+public class SAIterator<T> implements Iterator<T> {
     int current = 0;
     T[] val;
-
 
 
 
@@ -29,21 +28,14 @@ public class SAIterator<T> implements Iterable<T> {
         return val[current++];
     }
 
-    @Override
+   // @Override
     public Iterator<T> iterator() {
         //Iterator<T> it = this.iterator();
      //this.val = itarr;
      return new SAIterator().iterator();
     }
 
-    // public Iterator<MyElem> iterator() {
-     //   return this;
 
-
-//    @Override
-   // public Iterator<T> iterator() {
-       // return new SAIterator( arr);
-  //  }
 }
 
 
