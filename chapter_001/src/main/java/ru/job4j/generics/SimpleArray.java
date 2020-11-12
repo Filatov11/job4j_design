@@ -6,41 +6,50 @@ import java.util.Iterator;
 import java.util.Objects;
 
 public class SimpleArray<T>  implements Iterable<T>
+
 {
     T[] uniArr;
-    int current = 0;
-    int count = 5;
+    //int current = 0;
+   private int count = 0 ;
+    private int capacity;
     public  SimpleArray(T[] arr) {
         uniArr = arr;
     }
 
+    public  SimpleArray(int capacity) {
+        this.uniArr = (T[]) new Object[capacity];
+    }
+
+
+
     public int  firstEmpty() {
-        int i = current;
-        while ( (this.uniArr[current] != null) &&  (current < this.uniArr.length-1) ) {
-            i = current++;
-        }
-        return i;
+        int i = count;
+     //   while ( (this.uniArr[count] != null) &&  (count < this.uniArr.length-1) ) {
+       //     i = count++;
+     //   }
+        return i-1;
 
     }
 
     public void   add(T model) {
         int index;
         index = firstEmpty();
-        index = Objects.checkIndex(index, count-1);
-
-            uniArr[current++] = model;
+        System.out.println("index = "+ index );
+      //  index = Objects.checkIndex(index, count);
+         System.out.println("index = "+ index );
+            uniArr[count++] = model;
 
     }
 
     public  void  set(int index, T model) {
-        Objects.checkIndex(index, count-1);
+        Objects.checkIndex(index, count);
       if (checkIndex(index)) {
             this.uniArr[index] = model;
         }
       }
 
     public void remove(int index)  {
-       index =  Objects.checkIndex(index, count-1);
+       index =  Objects.checkIndex(index, count);
         if (checkIndex(index)) {
             System.arraycopy(uniArr, index + 1, uniArr, index, uniArr.length - 1 - index);
             uniArr[uniArr.length - 1] = null;
@@ -68,12 +77,16 @@ public class SimpleArray<T>  implements Iterable<T>
 
     public static void main(String[] args) {
 
-        String[] strings = new String[]{"Hello", "World"};
+        ///String[] strings = new String[]{"Hello", "World"};
 
 
 
-        SimpleArray<String> array1 = new SimpleArray<>(strings);
+       // SimpleArray<String> array1 = new SimpleArray<>(strings);
+        SimpleArray<String> array1 = new SimpleArray(5);
+
         //System.out.println(array1.get(0));
+        array1.add("Hello"); array1.add("world");
+
         array1.add("my");
 
 
@@ -81,7 +94,7 @@ public class SimpleArray<T>  implements Iterable<T>
 
         array1.set(1, "land");
          for ( String s : array1.uniArr ) {
-           System.out.println((String)s);
+           System.out.println(s);
          }
 
     }
