@@ -24,9 +24,7 @@ public class SimpleArray<T>  implements Iterable<T>
 
     public int  firstEmpty() {
         int i = count;
-     //   while ( (this.uniArr[count] != null) &&  (count < this.uniArr.length-1) ) {
-       //     i = count++;
-     //   }
+
         return i-1;
 
     }
@@ -77,14 +75,8 @@ public class SimpleArray<T>  implements Iterable<T>
 
     public static void main(String[] args) {
 
-        ///String[] strings = new String[]{"Hello", "World"};
-
-
-
-       // SimpleArray<String> array1 = new SimpleArray<>(strings);
         SimpleArray<String> array1 = new SimpleArray(5);
 
-        //System.out.println(array1.get(0));
         array1.add("Hello"); array1.add("world");
 
         array1.add("my");
