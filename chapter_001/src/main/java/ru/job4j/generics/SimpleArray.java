@@ -8,7 +8,7 @@ import java.util.Objects;
 public class SimpleArray<T>  implements Iterable<T>
 
 {
-    T[] uniArr;
+    private T[] uniArr;
     //int current = 0;
    private int count = 0 ;
     private int capacity;
@@ -22,53 +22,48 @@ public class SimpleArray<T>  implements Iterable<T>
 
 
 
-    public int  firstEmpty() {
-        int i = count;
 
-        return i-1;
-
-    }
 
     public void   add(T model) {
         int index;
-        index = firstEmpty();
-        System.out.println("index = "+ index );
+        index = count;
+     //   System.out.println("index = "+ index );
       //  index = Objects.checkIndex(index, count);
-         System.out.println("index = "+ index );
+    //     System.out.println("index = "+ index );
             uniArr[count++] = model;
 
     }
 
     public  void  set(int index, T model) {
         Objects.checkIndex(index, count);
-      if (checkIndex(index)) {
             this.uniArr[index] = model;
-        }
+
       }
 
     public void remove(int index)  {
        index =  Objects.checkIndex(index, count);
-        if (checkIndex(index)) {
+
             System.arraycopy(uniArr, index + 1, uniArr, index, uniArr.length - 1 - index);
             uniArr[uniArr.length - 1] = null;
             count--;
-        }
-    }
-
-
-    public boolean checkIndex(int index) {
-           boolean cInd;
-        if  (this.uniArr.length > index)
-        {cInd = true;}  else
-        {cInd = false;}
-        return  cInd;
 
     }
+
+
+  //  public boolean checkIndex(int index) {
+   //        boolean cInd;
+   //     if  (this.uniArr.length > index)
+   //     {cInd = true;}  else
+   //     {cInd = false;}
+   //     return  cInd;
+   // }
+
     public T get(int index) {
         T retVal = null;
-        if (checkIndex(index)) {
+        index =  Objects.checkIndex(index, count);
+
             retVal = this.uniArr[index];
-        }
+
         return retVal;
         }
 
@@ -85,8 +80,9 @@ public class SimpleArray<T>  implements Iterable<T>
         array1.remove(2);
 
         array1.set(1, "land");
-         for ( String s : array1.uniArr ) {
-           System.out.println(s);
+
+         for ( String s : array1.uniArr) {
+       //    System.out.println(s);
          }
 
     }
