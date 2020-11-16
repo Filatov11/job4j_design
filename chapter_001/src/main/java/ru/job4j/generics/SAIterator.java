@@ -32,7 +32,9 @@ public class SAIterator<T> implements Iterator<T> {
     public Iterator<T> iterator() {
         //Iterator<T> it = this.iterator();
      //this.val = itarr;
-     return new SAIterator().iterator();
+    /// return new SAIterator().iterator();
+        return iterator();
+
     }
 
 
