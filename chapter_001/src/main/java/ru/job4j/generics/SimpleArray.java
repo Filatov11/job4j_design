@@ -1,5 +1,5 @@
 package ru.job4j.generics;
-
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -51,10 +51,13 @@ public class SimpleArray<T> implements Iterable<Object> {
         array1.add("my");
         array1.remove(2);
         array1.set(1, "land");
-        for (String s : array1.uniArr) {
-            System.out.println(s);
-        }
-
+        Iterator<String> iterator = new SAIterator<String>(array1.uniArr);
+       // for (String s : iterator.next()) {
+          //  System.out.println(s);
+   //   }
+       while(iterator.hasNext()) {
+           System.out.println((String) iterator.next());
+       }
 
     }
 
