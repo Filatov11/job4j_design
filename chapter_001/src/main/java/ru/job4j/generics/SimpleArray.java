@@ -51,10 +51,10 @@ public class SimpleArray<T> implements Iterable<Object> {
         array1.add("my");
         array1.remove(2);
         array1.set(1, "land");
-        Iterator<String> iterator = new SAIterator<String>(array1.uniArr);
+        Iterator<String> iterator = new SAIterator(array1.uniArr);
        // for (String s : iterator.next()) {
-          //  System.out.println(s);
-   //   }
+       //     System.out.println(s);
+    //  }
        while(iterator.hasNext()) {
            System.out.println((String) iterator.next());
        }
