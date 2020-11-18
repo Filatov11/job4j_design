@@ -8,21 +8,35 @@ public final class MemStore<T extends Base> implements Store<T> {
 
     @Override
     public void add(T model) {
-
+     mem.add(model);
     }
 
     @Override
     public boolean replace(String id, T model) {
-        return false;
+       add(model);
+       return  delete(id);
+
     }
 
     @Override
     public boolean delete(String id) {
-        return false;
+      return mem.remove(findById(id));
+
     }
 
     @Override
     public T findById(String id) {
-        return null;
+       T finded = null;
+        for (T memo : mem) {
+            if (memo.getId() == id) {
+                finded = memo ;
+            }
+        }
+        return  finded;
     }
+
+ //   public int memIndex(String id) {
+  //      int i = 0 ;
+  //      i = mem.indexOf(findById(id));
+  //  }
 }
