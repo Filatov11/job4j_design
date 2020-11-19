@@ -6,15 +6,19 @@ import java.util.NoSuchElementException;
 public class SAIterator<T> implements Iterator<T> {
     private T array[];
     private int current = 0;
-    public SAIterator(T anArray[]) {
-        array = anArray;
+    private int count ;
+    public SAIterator(T arr[], int  cntval ) {
+        array = arr;
+        count = cntval;
     }
     public boolean hasNext() {
-        return current < array.length;
+        return current < count;
     }
     public T next() throws NoSuchElementException {
-        if (hasNext())
-            return array[current++];
+        if (hasNext()) {
+            current++;
+            return array[current - 1];
+        }
         else
             throw new NoSuchElementException();
     }

@@ -4,10 +4,10 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
-public class SimpleArray<T> implements Iterable<Object> {
+public class SimpleArray<T> implements Iterable<T> {
     @Override
-    public Iterator<Object> iterator() {
-        return null;
+    public Iterator<T> iterator() {
+        return new SAIterator<T> (uniArr, count);
     }
     private T[] uniArr;
     private int count = 0;
@@ -30,8 +30,8 @@ public class SimpleArray<T> implements Iterable<Object> {
     }
     public void remove(int index) {
         index = Objects.checkIndex(index, count);
-        System.arraycopy(uniArr, index + 1, uniArr, index, uniArr.length - 1 - index);
-        uniArr[uniArr.length - 1] = null;
+        System.arraycopy(uniArr, index , uniArr, index -1, uniArr.length  - index);
+        uniArr[count] = null;
         count--;
     }
     public T get(int index) {
@@ -51,10 +51,9 @@ public class SimpleArray<T> implements Iterable<Object> {
         array1.add("my");
         array1.remove(2);
         array1.set(1, "land");
-        Iterator<String> iterator = new SAIterator(array1.uniArr);
-       // for (String s : iterator.next()) {
-       //     System.out.println(s);
-    //  }
+        array1.add("my1");
+        Iterator<String> iterator = new SAIterator(array1.uniArr, array1.count);
+
        while(iterator.hasNext()) {
            System.out.println((String) iterator.next());
        }
