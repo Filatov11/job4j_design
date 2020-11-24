@@ -35,8 +35,12 @@ public final class MemStore<T extends Base> implements Store<T> {
         return  finded;
     }
 
- //   public int memIndex(String id) {
-  //      int i = 0 ;
-  //      i = mem.indexOf(findById(id));
-  //  }
+    public int memIndex(String id) {
+       int i = 0 ;
+       i = mem.indexOf(findById(id));
+       return i;
+   }
+
+
+
 }
