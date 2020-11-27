@@ -13,10 +13,14 @@ public class MemStoreRun {
         List<String> li = new ArrayList<String>();
         List<String>  li1 = Arrays.asList(new String[]{"foo", "bar"});
 
-        MemStore<Base> gArray = new MemStore<Base>() ;
+        MemStore<? super Base> gArray = new MemStore<Base>() ;
+        Store<? extends Base> n1 = new MemStore<Base>();
+
+        gArray.add(n1);
 
 
-       gArray.add(new  MemStore<>());
+        MemStore<String> object = new MemStore<>();
+
 
        // String last = gArray.getLastElement();
 
