@@ -1,6 +1,7 @@
 package ru.job4j.generics;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Iterator;
 
 public final class MemStore<T extends Base> implements Store<T> {
 
@@ -56,6 +57,17 @@ public final class MemStore<T extends Base> implements Store<T> {
             }
         }
         return  index;
+  }
+    @Override
+  public  void lstArray () {
+
+      Iterator<T> itr = mem.iterator();
+      while(itr.hasNext()){
+          System.out.println(itr.next().getId());
+      }
+
+
+
   }
 
 }

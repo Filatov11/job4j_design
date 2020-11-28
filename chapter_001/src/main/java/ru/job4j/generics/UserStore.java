@@ -10,25 +10,22 @@ public class UserStore<User extends Base> implements Store<User> {
 
     @Override
     public boolean replace(String id, User model) {
-        if (store.findById(id) == null)  {
-            return false;
-        }
-        store.replace(id,model);
-        return true;
+        return store.replace(id,model);
+
     }
 
     @Override
     public boolean delete(String id) {
-        if (store.findById(id) == null)  {
-            return false;
-        }
-        store.delete(id);
-        return false;
+        return  store.delete(id);
     }
 
     @Override
     public User findById(String id) {
         store.findById(id);
         return null;
+    }
+    @Override
+    public void lstArray() {
+        store.lstArray();
     }
 }

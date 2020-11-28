@@ -4,27 +4,30 @@ import java.util.Arrays;
 import java.util.List;
 import ru.job4j.generics.MemStore;
 
-public class MemStoreRun {
+public class MemStoreRun  {
 
     public static void main(String[] args) {
 
-        // Массив String.
-        String[] names = new String[] { "Tom", "Jerry" };
-        List<String> li = new ArrayList<String>();
-        List<String>  li1 = Arrays.asList(new String[]{"foo", "bar"});
+        UserStore gArray = new UserStore<Base>() ;
+        Store<? super Base> n1 = new MemStore<Base>();
 
-        MemStore<? super Base> gArray = new MemStore<Base>() ;
-        Store<? extends Base> n1 = new MemStore<Base>();
+        gArray.add(new User("Tom"));
+        gArray.add(new User("Willy"));
+        gArray.add(new User("Jack"));
 
-        gArray.add(n1);
-
-
-        MemStore<String> object = new MemStore<>();
-
-
-       // String last = gArray.getLastElement();
+        n1.add(new User("Tom"));
+        n1.add(new Role("turner"));
+        n1.add(new User("Smith"));
+       n1.lstArray();
+       System.out.println("_---------");
+       n1.replace("Tom",new User("Rocky"));
+       n1.delete("Smith");
+        n1.lstArray();
 
 
     }
+
+
+
 
 }
