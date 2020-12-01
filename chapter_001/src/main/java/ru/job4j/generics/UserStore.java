@@ -1,5 +1,5 @@
 package ru.job4j.generics;
-public class UserStore<User extends Base> implements Store<User> {
+public class UserStore implements Store<User> {
 
     private final Store<User> store = new MemStore<>();
 
@@ -21,8 +21,8 @@ public class UserStore<User extends Base> implements Store<User> {
 
     @Override
     public User findById(String id) {
-        store.findById(id);
-        return null;
+
+        return store.findById(id);
     }
     @Override
     public void lstArray() {

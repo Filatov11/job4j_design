@@ -8,7 +8,7 @@ public class MemStoreRun  {
 
     public static void main(String[] args) {
 
-        UserStore gArray = new UserStore<Base>() ;
+        UserStore gArray = new UserStore() ;
         Store<? super Base> n1 = new MemStore<Base>();
 
         gArray.add(new User("Tom"));
