@@ -1,14 +1,15 @@
 package ru.job4j.list;
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.is;
+
 import org.junit.Test;
 
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-
 public class SimpleArrayTest {
+
     @Test
     public void whenAddThenGet() {
         SimpleArray<String> array = new SimpleArray<>();
@@ -52,5 +53,4 @@ public class SimpleArrayTest {
         array.add("second");
         it.next();
     }
-
 }
