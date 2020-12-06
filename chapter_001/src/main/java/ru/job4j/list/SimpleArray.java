@@ -1,15 +1,15 @@
 package ru.job4j.list;
-import java.util.Iterator;
+
 import java.util.*;
 
 
-public class SimpleArray <T> implements Iterable<T> {
+public class SimpleArray<T> implements Iterable<T> {
     private static final int initSize = 10;
     private int currSize;
     private T[] smpArray;
-    private int currNumber;
     protected transient int modCount = 0;
-
+    int expectedModCount = modCount;
+    private int position = 0;
 
     public SimpleArray() {
         smpArray = (T[]) new Object[10];
@@ -17,7 +17,7 @@ public class SimpleArray <T> implements Iterable<T> {
 
     public T get(int index) {
 
-        Objects.checkIndex(index, currSize);
+        Objects.checkIndex(index, position);
 
         return smpArray[index];
 
@@ -28,7 +28,7 @@ public class SimpleArray <T> implements Iterable<T> {
         if (currSize == smpArray.length) {
             increaseListSize();
         }
-        smpArray[this.currSize++] = obj;
+        smpArray[this.position++] = obj;
         modCount++;
     }
 
@@ -40,73 +40,33 @@ public class SimpleArray <T> implements Iterable<T> {
 
     private void increaseListSize() {
         smpArray = Arrays.copyOf(smpArray, smpArray.length * 2);
-        System.out.println("\nNew length: " + smpArray.length);
-    }
-
-    public boolean arrIsEmpty() {
-        boolean empty = true;
-        for (int i = 0; i < smpArray.length; i++) {
-            if (smpArray[i] != null) {
-                empty = false;
-                break;
-            }
-        }
-        return empty;
+        this.currSize = smpArray.length;
     }
 
 
     @Override
     public Iterator<T> iterator() {
-        if (arrIsEmpty()) throw new NoSuchElementException();
-        Iterator<T> iterator = new SimpleArrayIterator();
-        try {
-            System.out.println("Iterator created");
-            return iterator;
-        } catch (NoSuchElementException exception) {
-        }
-        ;
-        return null;
+        return new Iterator<T>() {
+
+            private int index;
+
+            private int expectedModCount = modCount;
+
+            @Override
+            public boolean hasNext() {
+                if (expectedModCount != modCount) {
+                    throw new ConcurrentModificationException();
+                }
+                return index < position;
+            }
+
+            @Override
+            public T next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
+                return (T) smpArray[index++];
+            }
+        };
     }
-
-    private class SimpleArrayIterator implements Iterator {
-        private int position = 0;
-
-        public boolean hasNext() {
-            if (position < smpArray.length)
-                return true;
-            else
-                return false;
-        }
-
-        public T next() {
-
-            if (this.hasNext()) {
-                checkForComodification();
-                return smpArray[position++];
-            } else
-
-
-                return null;
-        }
-
-
-
-        final void checkForComodification() {
-          //  if (modCount != expectedModCount)
-         //       throw new ConcurrentModificationException();
-        }
-
-
-
-
-
-        @Override
-        public void remove() {
-
-        }
-
-
-    }
-
-
 }
