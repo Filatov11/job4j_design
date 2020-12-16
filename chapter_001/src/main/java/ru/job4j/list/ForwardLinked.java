@@ -5,13 +5,13 @@ import java.util.NoSuchElementException;
 public class ForwardLinked<T> implements Iterable<T> {
     private Node<T> head;
 
-    public void deleteFirst() {
+    public T deleteFirst() {
         if(head==null){  //means LinkedList in empty, throw exception.
             throw new NoSuchElementException();
         }
         Node tempNode = head; // save reference to first Node in tempNode- so that we could return saved reference.
         head = head.next; // delete first Node (make first point to second node)
-      //  return tempNode;
+        return (T)tempNode.value;
     }
 
     public void add(T value) {

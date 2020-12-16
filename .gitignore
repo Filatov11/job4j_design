@@ -29,3 +29,6 @@ target
 out
 .idea/
 *.iml
+/chapter_001/src/main/java/ru/meta/chap1/*.*
+
+
