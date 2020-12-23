@@ -11,6 +11,10 @@ public class SimpleStack<T> {
 
     }
 
+    public int stackSize () {
+       return linked.size;
+    }
+
     public void push(T value) {
     linked.add(value);
     }
