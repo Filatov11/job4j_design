@@ -1,5 +1,7 @@
 package ru.job4j.map;
-
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.*;
 
 public class UserMap {
@@ -12,8 +14,9 @@ public class UserMap {
 
         for (Map.Entry<User,Object>  item :    usrMap.entrySet())
 
-        System.out.println( item.getKey().birthday.toString() + " " +  item.getKey().children  + " "
-                 + item.getKey().name + " val " + item.getValue().toString() );
+        System.out.println( item.getKey().getBirthday().toString() + " " +  item.getKey().getChildren()  + " "
+                 + item.getKey().getName() + " val " + item.getValue().toString() );
+
 
     }
 

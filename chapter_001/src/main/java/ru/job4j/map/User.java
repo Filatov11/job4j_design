@@ -38,5 +38,12 @@ public class User {
     }
 
 
+    public int hashCode(){
+        System.out.println("Calling hashCode()");
+       int  hash = name.hashCode() + children + birthday.hashCode();
+        System.out.println("hashCode value is " + hash);
+        return hash;
+    }
+
 
 }
