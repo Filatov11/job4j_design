@@ -1,31 +1,37 @@
 package ru.job4j.map;
 
-import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class CustHashMap<K,V> implements Iterable<CustHashMap.HashNode> {
+public class CustHashMap<K, V> implements Iterable<CustHashMap> {
     private int modCount;
+    public static final float LOAD_FACTOR = 0.7f;
+    private HashNode<K, V>[] map;
+
     @Override
-    public Iterator <HashNode> iterator() {
+    public Iterator<HashNode> iterator() {
+
         return new Iterator<>() {
+
             private int index;
+
             private int expectedModCount = modCount;
+
             @Override
             public boolean hasNext() {
                 if (expectedModCount != modCount) {
                     throw new ConcurrentModificationException();
                 }
-                boolean res = false;
-                for (int i = index; i < bucketArray.size(); i++) {
-                    if (bucketArray.get(i) != null) {
+                boolean found = false;
+                for (int i = index; i < map.length; i++) {
+                    if (map[i] != null) {
                         index = i;
-                        res = true;
+                        found = true;
                         break;
                     }
                 }
-                return res;
+                return found;
             }
 
             @Override
@@ -33,36 +39,18 @@ public class CustHashMap<K,V> implements Iterable<CustHashMap.HashNode> {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                return bucketArray.get(index++);
+                return map[index++];
             }
         };
     }
 
-    class HashNode<K, V> {
-        K key;
-        V value;
-        HashNode<K, V> next;
 
-        public HashNode(K key, V value) {
-            this.key = key;
-            this.value = value;
-        }
-    }
-
-
-
-    private ArrayList<HashNode<K, V>> bucketArray;
     private int numBuckets;
     private int size;
 
-    public CustHashMap() {
-        bucketArray = new ArrayList<>();
-        numBuckets = 10;
-        size = 0;
-
-
-        for (int i = 0; i < numBuckets; i++)
-            bucketArray.add(null);
+    public CustHashMap(int size) {
+        this.size = size;
+        this.map = new HashNode[size];
     }
 
 
@@ -82,81 +70,63 @@ public class CustHashMap<K,V> implements Iterable<CustHashMap.HashNode> {
 
 
     public V delete(K key) {
-
-        int bucketIndex = getBucketIndex(key);
-
-        HashNode<K, V> head = bucketArray.get(bucketIndex);
-
-        HashNode<K, V> prev = null;
-        while (head != null) {
-
-            if (head.key.equals(key))
-                break;
-
-            prev = head;
-            head = head.next;
-        }
-
-        if (head == null)
+        int h = doHashCode(key);
+        if (map[h] == null || !(key == null || map[h].key.hashCode() == key.hashCode() && key.equals(map[h].key))) {
             return null;
-
+        }
+        V value = map[h].value;
+        map[h] = null;
+        modCount++;
         size--;
-
-        if (prev != null)
-            prev.next = head.next;
-        else
-            bucketArray.set(bucketIndex, head.next);
-        return head.value;
+        return value;
     }
-
 
     public V get(K key) {
-        int bucketIndex = getBucketIndex(key);
-        HashNode<K, V> head = bucketArray.get(bucketIndex);
-        while (head != null) {
-            if (head.key.equals(key))
-                return head.value;
-            head = head.next;
+        int h = doHashCode(key);
+        if (map[h] == null || !(key == null || map[h].key.hashCode() == key.hashCode() && key.equals(map[h].key))) {
+            return null;
         }
-
-
-        return null;
+        return map[h].value;
     }
 
-    public void insert(K key, V value) {
-        int bucketIndex = getBucketIndex(key);
-        HashNode<K, V> head = bucketArray.get(bucketIndex);
-        while (head != null) {
-            if (head.key.equals(key)) {
-                head.value = value;
-                return;
-            }
-            head = head.next;
+
+    public boolean insert(K key, V value) {
+        resize();
+        int h = doHashCode(key);
+        if (!(map[h] == null
+                || ((key == map[h].key) || map[h].key.hashCode() == key.hashCode() && key.equals(map[h].key)))) {
+            return false;
         }
-        size++;
-        head = bucketArray.get(bucketIndex);
-        HashNode<K, V> newNode = new HashNode<K, V>(key, value);
-        newNode.next = head;
-        bucketArray.set(bucketIndex, newNode);
-        if ((1.0 * size) / numBuckets >= 0.7) {
-            ArrayList<HashNode<K, V>> temp = bucketArray;
-            bucketArray = new ArrayList<>();
-            numBuckets = 2 * numBuckets;
-            size = 0;
-            for (int i = 0; i < numBuckets; i++)
-                bucketArray.add(null);
-            for (HashNode<K, V> headNode : temp) {
-                while (headNode != null) {
-                    insert(headNode.key, headNode.value);
-                    headNode = headNode.next;
+        if (map[h] == null) {
+            size++;
+        }
+        map[h] = new HashNode<>(key, value, h);
+        modCount++;
+        return true;
+    }
+
+    private int doHashCode(K key) {
+        return (key == null) ? 0 : ((int) (key) >>> 32 + 31 + key.hashCode());
+    }
+
+    private void resize() {
+        if (((float) size / numBuckets) > LOAD_FACTOR) {
+            int oldNumBuckets = numBuckets;
+            numBuckets = numBuckets * 2;
+            HashNode<K, V>[] extMap = new HashNode[numBuckets];
+            for (int i = 0; i < oldNumBuckets; i++) {
+                if (map[i] != null) {
+                    int h = doHashCode(map[i].key);
+                    extMap[h] = new HashNode<>(map[i].key, map[i].value, h);
                 }
             }
+            this.map = extMap;
         }
     }
 
 
     public static void main(String[] args) {
-        CustHashMap<String, Integer> map = new CustHashMap<>();
+        CustHashMap<String, Integer> map = new CustHashMap<>(10);
         map.insert("this", 1);
         map.insert("coder", 2);
         map.insert("this", 4);
@@ -166,5 +136,42 @@ public class CustHashMap<K,V> implements Iterable<CustHashMap.HashNode> {
         System.out.println(map.delete("this"));
         System.out.println(map.size());
         System.out.println(map.isEmpty());
+    }
+
+}
+
+class HashNode<K, V> {
+    K key;
+    V value;
+    int hCode;
+
+    public HashNode(K key, V value, int hashCode) {
+        this.key = key;
+        this.value = value;
+        this.hCode = hashCode;
+    }
+
+    public K getKey() {
+        return key;
+    }
+
+    public void setKey(K key) {
+        this.key = key;
+    }
+
+    public V getValue() {
+        return value;
+    }
+
+    public void setValue(V value) {
+        this.value = value;
+    }
+
+    public int gethCode() {
+        return hCode;
+    }
+
+    public void sethCode(int hCode) {
+        this.hCode = hCode;
     }
 }
