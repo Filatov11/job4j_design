@@ -22,6 +22,8 @@ public class ResultFile {
                 fos.write(( String.format("%3d", k) + "  ").getBytes());
             }
 
+
+
             fos.write(("\n +------------------------------------------------- \n ").getBytes());
             for(int i = 0 ;i<=x ;i++) {
                 fos.write((i+ "| ").getBytes());
