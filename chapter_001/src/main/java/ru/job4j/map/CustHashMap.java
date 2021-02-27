@@ -3,46 +3,13 @@ package ru.job4j.map;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import  ru.job4j.map.HashNode;
 
-public class CustHashMap<K, V> implements Iterable<CustHashMap> {
+public class CustHashMap<K, V> implements Iterable<HashNode> {
     private int modCount;
     public static final float LOAD_FACTOR = 0.7f;
-    private HashNode<K, V>[] map;
+    private HashNode <K, V>[] map;
 
-    @Override
-    public Iterator<HashNode> iterator() {
-
-        return new Iterator<>() {
-
-            private int index;
-
-            private int expectedModCount = modCount;
-
-            @Override
-            public boolean hasNext() {
-                if (expectedModCount != modCount) {
-                    throw new ConcurrentModificationException();
-                }
-                boolean found = false;
-                for (int i = index; i < map.length; i++) {
-                    if (map[i] != null) {
-                        index = i;
-                        found = true;
-                        break;
-                    }
-                }
-                return found;
-            }
-
-            @Override
-            public HashNode next() {
-                if (!hasNext()) {
-                    throw new NoSuchElementException();
-                }
-                return map[index++];
-            }
-        };
-    }
 
 
     private int numBuckets;
@@ -138,40 +105,46 @@ public class CustHashMap<K, V> implements Iterable<CustHashMap> {
         System.out.println(map.isEmpty());
     }
 
-}
 
-class HashNode<K, V> {
-    K key;
-    V value;
-    int hCode;
+    @Override
+    public Iterator<HashNode> iterator() {
+        return new Iterator<>() {
 
-    public HashNode(K key, V value, int hashCode) {
-        this.key = key;
-        this.value = value;
-        this.hCode = hashCode;
-    }
+            private int index;
 
-    public K getKey() {
-        return key;
-    }
+            private int expectedModCount = modCount;
 
-    public void setKey(K key) {
-        this.key = key;
-    }
+            @Override
+            public boolean hasNext() {
+                if (expectedModCount != modCount) {
+                    throw new ConcurrentModificationException();
+                }
+                boolean found = false;
+                for (int i = index; i < map.length; i++) {
+                    if (map[i] != null) {
+                        index = i;
+                        found = true;
+                        break;
+                    }
+                }
+                return found;
+            }
 
-    public V getValue() {
-        return value;
-    }
+            @Override
+            public HashNode next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
+                return map[index++];
+            }
 
-    public void setValue(V value) {
-        this.value = value;
-    }
 
-    public int gethCode() {
-        return hCode;
-    }
+            @Override
+            public void remove(){
+                throw new UnsupportedOperationException();
+            }
+        };
 
-    public void sethCode(int hCode) {
-        this.hCode = hCode;
+       // return null;
     }
 }
