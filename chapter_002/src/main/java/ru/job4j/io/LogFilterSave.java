@@ -26,7 +26,7 @@ public class LogFilterSave {
                         new FileOutputStream(file)
                 ))) {
             for (String item : log) {
-                out.write(item);
+               out.println(item);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -36,6 +36,7 @@ public class LogFilterSave {
     public static void main(String[] args) {
         List<String> log = filter("log.txt");
         save(log, "404.txt");
+
     }
 
     public static boolean checkResponse(String resp) {
