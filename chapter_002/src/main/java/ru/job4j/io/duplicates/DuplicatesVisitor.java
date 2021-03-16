@@ -5,15 +5,12 @@ import java.nio.file.FileVisitResult;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class DuplicatesVisitor extends SimpleFileVisitor<Path> {
-    HashSet<FileProperty> fList = new HashSet<>();
-    ArrayList<String> dup = new ArrayList<String>();
+  private Set<FileProperty> fList = new HashSet<>();
+    private ArrayList<String> dup = new ArrayList<String>();
 
     @Override
     public FileVisitResult visitFile(Path visitedFile, BasicFileAttributes fileAttributes)
