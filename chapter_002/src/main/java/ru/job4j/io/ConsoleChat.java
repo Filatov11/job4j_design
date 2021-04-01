@@ -1,9 +1,8 @@
 package ru.job4j.io;
 
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.io.*;
+import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -15,9 +14,50 @@ public class ConsoleChat {
     private static final String CONTINUE = "продолжить";
     private static final String BOT_ANSWER = "/home/aster/IdeaProjects/job4j_design/src/data/answerList.lst";
     private static final String BOT_DIALOG = "/home/aster/IdeaProjects/job4j_design/src/data/dialog.log";
+    private static final String MASK = "yyyy-mm-dd hh:mm:ss";
     //  private static  HashMap<String, String> answerMap ;
     private List<String> phrases = new ArrayList<>(100);
     private List<String> log = new LinkedList<>();
+
+    public void readFile() {
+        BufferedReader objReader = null;
+        try {
+            String strCurrentLine;
+            objReader = new BufferedReader(new FileReader(BOT_ANSWER, Charset.forName("WINDOWS-1251")));
+            while ((strCurrentLine = objReader.readLine()) != null) {
+                phrases.add(strCurrentLine);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (objReader != null)
+                    objReader.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    public void writeFile(String path, List<String> list) {
+        String data;
+        for (String dat : list) {
+            try (BufferedWriter br = new BufferedWriter(
+                    new FileWriter(path, Charset.forName("WINDOWS-1251"), true))) {
+                br.write(dat + System.lineSeparator());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+    }
+
+    public String getAnswer() {
+        String answer;
+        answer = phrases.get((new Random()).nextInt(phrases.size()));
+        return answer;
+    }
 
     public ConsoleChat(String path, String botAnswers) {
         this.path = path;
@@ -25,41 +65,34 @@ public class ConsoleChat {
     }
 
     public void run() throws IOException {
-        UsageEncoding encodReadFromFile = new UsageEncoding();
+        readFile();
         for (String str : phrases) {
-            encodReadFromFile.writeDataInFile(BOT_ANSWER, str);
+            System.out.println(str);
         }
-
 
         boolean isContinue = true;
         System.out.println("Hello! Let's talk!!!");
         Scanner scan = new Scanner(System.in);
-
         while (isContinue) {
-
             UsageEncoding encoding = new UsageEncoding();
             String input = scan.nextLine();
-
             if (input.equalsIgnoreCase(OUT)) {
-                log.add(String.format(new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").format(Calendar.getInstance().getTime()) + "user input: ", input));
+                System.out.println(getAnswer());
+                log.add(String.format((new SimpleDateFormat(MASK)).format(Calendar.getInstance().getTime()) + "  || " +
+                        "Question " + input + " bot  answer: " + getAnswer()));
                 break;
             } else if (input.equalsIgnoreCase(STOP)) {
-                log.add(String.format(new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").format(Calendar.getInstance().getTime()) + "user input: ", input));
+                log.add(String.format((new SimpleDateFormat(MASK)).format(Calendar.getInstance().getTime()) + "  || " +
+                        "Question " + input + " bot  answer: " + getAnswer()));
                 continue;
             } else if (input.equalsIgnoreCase(CONTINUE)) {
 
-                Scanner scanQuest = new Scanner(System.in);
-                String question = scanQuest.nextLine();
-                encoding.writeDataInFile(path, question);
-                this.botAnswers = phrases.get((int) (Math.random() * phrases.size()));
-                System.out.println("botAnswers  : " + this.botAnswers);
-                log.add(String.format(new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").format(Calendar.getInstance().getTime()) + "Question " + question + " bot  answer: ", this.botAnswers));
-
-                log.add(String.format(new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").format(Calendar.getInstance().getTime()) + "user input: ", input));
-
+                System.out.println(getAnswer());
+                log.add(String.format((new SimpleDateFormat(MASK)).format(Calendar.getInstance().getTime()) + "  || " +
+                        "Question " + input + " bot  answer: " + getAnswer()));
             }
         }
-        Files.write(Path.of(BOT_DIALOG), log);
+        writeFile(BOT_DIALOG, log);
     }
 
 
