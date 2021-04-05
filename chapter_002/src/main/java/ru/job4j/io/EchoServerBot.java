@@ -33,6 +33,8 @@ public class EchoServerBot {
                             System.out.println(httpMessage(str));
                             echoServerBot.setMessage(httpMessage(str));
                             if (echoServerBot.message.equals("Exit")) {
+                                out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
+                                out.write("Goodbye".getBytes());
                                 server.close();
                                 break;
                             }
@@ -40,10 +42,7 @@ public class EchoServerBot {
 
                         }
 
-                        if (str.contains("msg=Exit")) {
-                            server.close();
-                            break;
-                        }
+
 
                     }
                     if ((echoServerBot.getMessage().equals("Hello"))) {
