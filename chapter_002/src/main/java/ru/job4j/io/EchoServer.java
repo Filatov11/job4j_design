@@ -20,12 +20,12 @@ public class EchoServer {
                         System.out.println();
                         System.out.println("Str = " + str);
                         if (str.contains("msg=Bye")) {
-                            out.write("HTTP/1.1 200 OK\r\n\".getBytes());
+                            out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
                             server.close();
                             break;
                         }
                     }
-                    out.write("HTTP/1.1 200 OK\r\n\".getBytes());
+                    out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
 
 
                 }

@@ -19,6 +19,8 @@ public class Contact implements Serializable, Externalizable {
     public Contact() {
     }
 
+
+
     public int getZipCode() {
         return zipCode;
     }
