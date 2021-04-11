@@ -1,0 +1,10 @@
+<?xml version="1.1" encoding="UTF-8" ?>
+<employee number=123 name=Nik/>
+<age>37</age>
+<hired>true</hired>
+<skills>
+<skill>Java</skill>
+<skill>Ruby</skill>
+<skill>PostgreSQL</skill>
+</skills>
+</employee>
