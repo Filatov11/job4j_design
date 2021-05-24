@@ -22,7 +22,7 @@ public class UsageEncoding {
 
     public  void writeDataInFile(String path, String data) {
   try {
-      BufferedWriter br = new BufferedWriter(new FileWriter(path, Charset.forName("WINDOWS-1251"),true));
+      BufferedWriter br = new BufferedWriter(new FileWriter(path, Charset.forName("WINDOWS-1251"), true));
       br.write(data + System.lineSeparator());
   } catch (IOException e) {
       e.printStackTrace();

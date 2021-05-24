@@ -6,7 +6,7 @@ import java.io.*;
 import java.nio.file.Files;
 
 public class Contact implements Serializable, Externalizable {
-    private static Logger LOG = LoggerFactory.getLogger(Contact.class.getName());
+    private static Logger lOG = LoggerFactory.getLogger(Contact.class.getName());
     private static final long serialVersionUID = 1L;
     private int zipCode;
     private String phone;
@@ -31,10 +31,13 @@ public class Contact implements Serializable, Externalizable {
 
     @Override
     public String toString() {
-        return "Contact{" +
-                "zipCode=" + zipCode +
-                ", phone='" + phone + '\'' +
-                '}';
+        return "Contact{"
+                + "zipCode="
+                + zipCode
+                + ", phone='"
+                + phone
+                + '\''
+                + '}';
     }
 
     @Override
@@ -79,9 +82,13 @@ public class Contact implements Serializable, Externalizable {
             ObjectInputStream ois = new ObjectInputStream(fis);
             contact2 = (Contact) ois.readObject();
             ois.close();
-            System.out.println("ZipCode: " + contact2.getZipCode() + ", Phone: " + contact2.getPhone());
+            System.out.println("ZipCode: "
+                    + contact2.getZipCode()
+                    + ", Phone: "
+                    + contact2.getPhone());
         } catch (Exception e) {
-            LOG.debug("Debug info " + e);
+            lOG.debug("Debug info "
+                    + e);
         }
     }
 }

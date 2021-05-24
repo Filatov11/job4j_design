@@ -16,7 +16,7 @@ public class EchoServer {
                      BufferedReader in = new BufferedReader(
                              new InputStreamReader(socket.getInputStream()))) {
                     String str;
-                    while (!(str = in.readLine()).isEmpty()) {
+                    while (!(str=in.readLine()).isEmpty()) {
                         System.out.println();
                         System.out.println("Str = " + str);
                         if (str.contains("msg=Bye")) {
@@ -29,7 +29,6 @@ public class EchoServer {
 
 
                 }
-                ;
             }
         }
     }

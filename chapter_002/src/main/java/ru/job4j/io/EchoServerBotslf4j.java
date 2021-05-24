@@ -10,7 +10,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class EchoServerBotslf4j {
-    private  Logger LOG = LoggerFactory.getLogger(EchoServerBotslf4j.class.getName());
+    private  Logger lOG = LoggerFactory.getLogger(EchoServerBotslf4j.class.getName());
 
     public String getMessage() {
         return this.message;
@@ -31,7 +31,7 @@ public class EchoServerBotslf4j {
                      BufferedReader in = new BufferedReader(
                              new InputStreamReader(socket.getInputStream()))) {
                     String str;
-                    while (!(str = in.readLine()).isEmpty()) {
+                    while (!(str=in.readLine()).isEmpty()) {
                         System.out.println(str);
                         if (str.contains("GET")) {
                             System.out.println(httpMessage(str));
@@ -60,7 +60,7 @@ public class EchoServerBotslf4j {
                 }
             }
         } catch (IOException e) {
-           echoServerBot.LOG.error("Error", e);
+           echoServerBot.lOG.error("Error", e);
            throw e;
         }
     }

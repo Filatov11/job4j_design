@@ -1,7 +1,5 @@
 package ru.job4j.io.find;
 
-import ru.job4j.io.find.Flist;
-
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -9,7 +7,10 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 public class FindFiles {
 
@@ -24,7 +25,7 @@ public class FindFiles {
 
     private static List<Path> log = new LinkedList<>();
     private final Map<String, String> values = new HashMap<>();
-    private  String[] argsArr;
+    private String[] argsArr;
 
     public FindFiles() {
 
@@ -33,6 +34,7 @@ public class FindFiles {
     public String get(String key) {
         return values.get(key);
     }
+
     public static FindFiles of(String[] args) {
         FindFiles names = new FindFiles();
         names.parse(args);
@@ -53,22 +55,16 @@ public class FindFiles {
     }
 
 
-
-
-
     public FindFiles(String[] args) {
         this.argsArr = args;
     }
 
     public static void usage() {
 
-           System.out.println("Example usage:  java -jar find.jar -d=/tmp -n=*.txt -t=mask -o=log.txt");
-
-
+        System.out.println("Example usage:  java -jar find.jar -d=/tmp -n=*.txt -t=mask -o=log.txt");
 
 
     }
-
 
 
     public static void save(List<Path> log, String file) {
@@ -76,7 +72,7 @@ public class FindFiles {
                 new BufferedOutputStream(
                         new FileOutputStream(file)
                 ))) {
-            for (Path Pathnane  : log) {
+            for (Path Pathnane : log) {
                 out.println(Pathnane.toString());
             }
         } catch (Exception e) {
@@ -85,23 +81,21 @@ public class FindFiles {
     }
 
 
-
-
-
-
     public static void main(String args[]) throws IOException {
         FindFiles findFiles = FindFiles.of(args);
         System.out.println(findFiles.get("d"));
         Path start = Paths.get("d");
-        if ( findFiles.get("n") == null || findFiles.get("n") == null)  { usage();  };
-       // ArgsName zip = ArgsName.of(new String[]{"-out=project.zip", "-encoding=UTF-8"});
-       // System.out.println(zip.get("out"));
+        if (findFiles.get("n") == null || findFiles.get("n") == null) {
+            usage();
+        }
+        ;
+        // ArgsName zip = ArgsName.of(new String[]{"-out=project.zip", "-encoding=UTF-8"});
+        // System.out.println(zip.get("out"));
         //  Flist flist = new Flist(start);
-       // Path start = Paths.get("d");
+        // Path start = Paths.get("d");
         searchf(start, findFiles.get("n"));
 
     }
-
 
 
     public static void searchf(Path root, String ext) throws IOException {
@@ -111,7 +105,7 @@ public class FindFiles {
 
     }
 
-    }
+}
 
 
 

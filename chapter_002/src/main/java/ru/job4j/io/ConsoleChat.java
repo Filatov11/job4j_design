@@ -31,8 +31,9 @@ public class ConsoleChat {
             e.printStackTrace();
         } finally {
             try {
-                if (objReader != null)
+                if (objReader != null) {
                     objReader.close();
+                }
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -78,18 +79,24 @@ public class ConsoleChat {
             String input = scan.nextLine();
             if (input.equalsIgnoreCase(OUT)) {
                 System.out.println(getAnswer());
-                log.add(String.format((new SimpleDateFormat(MASK)).format(Calendar.getInstance().getTime()) + "  || " +
-                        "Question " + input + " bot  answer: " + getAnswer()));
+                log.add(String.format((new SimpleDateFormat(MASK)).format(Calendar.getInstance().getTime())
+                        + "  || "
+                        + "Question " + input + " bot  answer: " + getAnswer()));
                 break;
             } else if (input.equalsIgnoreCase(STOP)) {
-                log.add(String.format((new SimpleDateFormat(MASK)).format(Calendar.getInstance().getTime()) + "  || " +
-                        "Question " + input + " bot  answer: " + getAnswer()));
+                log.add(String.format((new SimpleDateFormat(MASK)).format(Calendar.getInstance().getTime())
+                        + "  || "
+                        + "Question " + input + " bot  answer: " + getAnswer()));
                 continue;
             } else if (input.equalsIgnoreCase(CONTINUE)) {
 
                 System.out.println(getAnswer());
-                log.add(String.format((new SimpleDateFormat(MASK)).format(Calendar.getInstance().getTime()) + "  || " +
-                        "Question " + input + " bot  answer: " + getAnswer()));
+                log.add(String.format((new SimpleDateFormat(MASK)).format(Calendar.getInstance().getTime())
+                        + "  || "
+                        + "Question "
+                        + input
+                        + " bot  answer: "
+                        + getAnswer()));
             }
         }
         writeFile(BOT_DIALOG, log);

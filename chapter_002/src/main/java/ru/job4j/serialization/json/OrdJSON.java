@@ -79,9 +79,9 @@ class CustJSON {
 
     private String lastname;
 
-    public CustJSON(int CustomerNumber, String firstname, String lastname) {
+    public CustJSON(int customerNumber, String firstname, String lastname) {
 
-        this.number = CustomerNumber;
+        this.number = customerNumber;
         this.firstname = firstname;
         this.lastname = lastname;
     }

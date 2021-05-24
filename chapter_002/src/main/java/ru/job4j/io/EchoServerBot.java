@@ -27,7 +27,7 @@ public class EchoServerBot {
                      BufferedReader in = new BufferedReader(
                              new InputStreamReader(socket.getInputStream()))) {
                     String str;
-                    while (!(str = in.readLine()).isEmpty()) {
+                    while (!(str=in.readLine()).isEmpty()) {
                         System.out.println(str);
                         if (str.contains("GET")) {
                             System.out.println(httpMessage(str));
