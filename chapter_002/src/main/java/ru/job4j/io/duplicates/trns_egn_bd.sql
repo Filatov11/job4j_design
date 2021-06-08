@@ -56,8 +56,13 @@ INSERT INTO public.transmissions(
      INSERT INTO public.transmissions(
             tm_id, type)
     VALUES (5,'5MT');    
-
-
+    
+     INSERT INTO public.transmissions(
+            tm_id, type)
+    VALUES (6,'5MT.F4');    
+     INSERT INTO public.transmissions(
+            tm_id, type)
+    VALUES (12,'ATF.M4');    
 
 INSERT INTO public.engines(
             engine_id, engine_type)
@@ -94,7 +99,9 @@ INSERT INTO public.engines(
         INSERT INTO public.engines(
             engine_id, engine_type)
     VALUES (11, 'VH45D');
-
+        INSERT INTO public.engines(
+            engine_id, engine_type)
+    VALUES (14, 'VH72DT');
     commit;
 
 
@@ -134,6 +141,9 @@ INSERT INTO public.vehicle_body(
     INSERT INTO public.vehicle_body(
             vb_id, type)
     VALUES (12, 'G50');
+    INSERT INTO public.vehicle_body(
+            vb_id, type)
+    VALUES (17, 'RTY57');
 
     commit;
 commit;
