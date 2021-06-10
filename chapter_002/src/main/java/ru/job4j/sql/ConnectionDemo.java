@@ -1,10 +1,15 @@
 package ru.job4j.sql;
+
 import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
+
 public class ConnectionDemo {
+    static Properties prop = new Properties();
+
     public static String getUrl() {
         return url;
     }
@@ -35,52 +40,20 @@ public class ConnectionDemo {
 
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
         readFile();
-
         Class.forName("org.postgresql.Driver");
-
-
-       try (Connection connection = DriverManager.getConnection(getUrl().trim(), getLogin().trim(), getPassword().trim())) {
-
-
+        try (Connection connection = DriverManager.getConnection(getUrl().trim(), getLogin().trim(), getPassword().trim())) {
             DatabaseMetaData metaData = connection.getMetaData();
             System.out.println(metaData.getUserName());
-          System.out.println(metaData.getURL());
-        }
-    }
-
-    public static void getProperties(String str) {
-String leftPart = "" , rightPart = "", rp ="";
-        if (!str.startsWith("#") && (str.contains("="))) {
-            int posA = str.indexOf('=');
-            leftPart = str.substring(0, posA);
-            rightPart = str.substring(posA + 1).trim();
-            rp = rightPart.substring( 1, rightPart.length() - 1 );
-
-               switch (leftPart.trim()) {
-           case "url": setUrl(rp);
-                break;
-            case "login": setLogin(rp);
-                break;
-            case "password": setPassword(rp);
-               break;
-            default:
-               break;
-        }
+            System.out.println(metaData.getURL());
         }
     }
 
     public static void readFile() {
         try (FileInputStream in = new FileInputStream("/home/aster/IdeaProjects/job4j_design/chapter_002/src/main/resources/app.properties")) {
-            StringBuilder text = new StringBuilder();
-            int read;
-            while ((read = in.read()) != -1) {
-                text.append((char) read);
-            }
-
-            String[] lines = text.toString().split(System.lineSeparator());
-            for (String line : lines) {
-                getProperties(line);
-            }
+            prop.load(in);
+            url = prop.getProperty("url");
+            login = prop.getProperty("login");
+            password = prop.getProperty("password");
         } catch (Exception e) {
             e.printStackTrace();
         }
