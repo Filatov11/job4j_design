@@ -8,6 +8,9 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class ConnectionDemo {
+    static private String url;
+    static private String login;
+    static private String password;
     static Properties prop = new Properties();
 
     public static String getUrl() {
@@ -33,10 +36,6 @@ public class ConnectionDemo {
     public static void setPassword(String password) {
         ConnectionDemo.password = password;
     }
-
-    static private String url;
-    static private String login;
-    static private String password;
 
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
         readFile();
