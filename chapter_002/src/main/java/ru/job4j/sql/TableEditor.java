@@ -22,7 +22,6 @@ public class TableEditor implements AutoCloseable {
     public static void main(String[] args) throws Exception {
         Properties prop = new Properties();
         TableEditor tableEditor = new TableEditor(prop);
-
         tableEditor.createTable("PGTABLE");
         tableEditor.addColumn("PGTABLE", "NewColumn", "date");
         tableEditor.dropColumn("PGTABLE", "NewColumn");
@@ -45,55 +44,47 @@ public class TableEditor implements AutoCloseable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
 
+    public void doStatement(String sql) throws SQLException {
+        try (Statement statement = connection.createStatement()) {
+            statement.execute(sql);
+        }
     }
 
     public void createTable(String tableName) throws SQLException {
-
-        try (Statement statement = connection.createStatement()) {
             String sql = String.format(
                     "create table if not exists " + tableName + " (%s, %s);",
                     "id serial primary key",
                     "name varchar(255)"
             );
-            statement.execute(sql);
-        }
-
+        doStatement(sql);
     }
 
     public void dropTable(String tableName) throws SQLException {
-
-        try (Statement statement = connection.createStatement()) {
             String sql = String.format(
                     "DROP TABLE IF EXISTS " + tableName + " CASCADE;");
-            statement.execute(sql);
-        }
+        doStatement(sql);
     }
 
     public void addColumn(String tableName, String columnName, String type) throws SQLException {
-        try (Statement statement = connection.createStatement()) {
             String sql = String.format(
                     "ALTER TABLE " + tableName + " ADD COLUMN IF NOT EXISTS " +
                             columnName + "  " + type + " ; ");
-            statement.execute(sql);
-        }
+        doStatement(sql);
     }
 
     public void dropColumn(String tableName, String columnName) throws SQLException {
-        try (Statement statement = connection.createStatement()) {
             String sql = String.format("ALTER TABLE " + tableName +
                     " DROP COLUMN IF EXISTS " + columnName + " ; ");
-            statement.execute(sql);
-        }
+        doStatement(sql);
     }
 
     public void renameColumn(String tableName, String columnName, String newColumnName) throws SQLException {
-        try (Statement statement = connection.createStatement()) {
             String sql = String.format("ALTER TABLE " + tableName +
                     " RENAME COLUMN " + columnName + " TO " + newColumnName + " ; ");
-            statement.execute(sql);
-        }
+        doStatement(sql);
     }
 
     public String getScheme(String tableName) throws SQLException {
