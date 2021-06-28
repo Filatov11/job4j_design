@@ -4,11 +4,9 @@
 
 CREATE TABLE public.items
 (
-  id serial NOT NULL DEFAULT nextval('items_id_seq'::regclass),
+  id serial NOT NULL PRIMARY KEY,
   name text
-)
-WITH (
-  OIDS=FALSE
 );
 ALTER TABLE public.items
   OWNER TO postgres;
+  
